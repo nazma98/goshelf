@@ -53,12 +53,12 @@ The server runs at: http://localhost:8080
 
 ## 📬 Example Endpoints
 
-| Method | Endpoint      | Description    |
-| ------ | ------------- | -------------- |
-| GET    | `/books`      | List all books |
-| POST   | `/books`      | Add a new book |
-| PUT    | `/books/{id}` | Update a book  |
-| DELETE | `/books/{id}` | Delete a book  |
+| Method | Endpoint        | Description    |
+| ------ | --------------- | -------------- |
+| GET    | `/books`        | List all books |
+| POST   | `/create-books` | Add a new book |
+| PUT    | `/books/{id}`   | Update a book  |
+| DELETE | `/books/{id}`   | Delete a book  |
 
 ## 🛠 Built With
 
