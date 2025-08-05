@@ -20,6 +20,35 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 	encoder.Encode(bookList)
 }
 
+func createBook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != "POST" {
+		http.Error(w, "Please give a POST method", 400)
+		return
+	}
+
+	// r.Body => id, title, author => book instance => booklist append
+
+	var newBook Book
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&newBook)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Please give a valid json", 400)
+	}
+
+	newBook.ID = len(bookList) + 1
+
+	bookList = append(bookList, newBook)
+
+	encoder := json.NewEncoder(w)
+	encoder.Encode(newBook)
+
+}
+
 type Book struct {
 	ID     int    `json:"id"`
 	Title  string `json:"title"`
@@ -30,7 +59,12 @@ var bookList []Book
 
 func main() {
 	mux := http.NewServeMux()
+
 	mux.HandleFunc("/", homeHandler)
+
+	mux.HandleFunc("/books", getBooks)
+
+	mux.HandleFunc("/create-books", createBook)
 
 	fmt.Println("🚀 Server running on port 8080")
 	err := http.ListenAndServe(":8080", mux)
@@ -46,7 +80,7 @@ func init() {
 		Author: "Alan A. A. Donovan",
 	}
 	book2 := Book{
-		ID:     1,
+		ID:     2,
 		Title:  "Introducing Go",
 		Author: "Caleb Doxsey",
 	}
